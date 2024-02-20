@@ -31,32 +31,33 @@ through the logic of the problem.
 import csv
 
 
-# create a file object to open the file in read mode
+infile = open('students.csv','r')
 
 
 
 # create a csv object from the file object
-
+csv_file = csv.reader(infile)
 
 #skip the header row
-
+next(csv_file)
 
 #create an outfile object for the pocessed record
 
-
+outfile = open('processedStudents.csv', 'a')
+csv_outfile = csv.writer(outfile)
 
 #create a new dictionary named 'student_dict'
 
+student_dict = {}
 
 
 #use a loop to iterate through each row of the file
-
-
-    #check if the GPA is below 3.0. If so, write the record to the outfile
-    
-        
-
-
+for row in csv_file:
+    student_name = f"{row[2]} {row[3]}".title()
+    student_gpa = float(row[8])
+    student_dict[student_name] = student_gpa
+    if student_gpa < 3.0:
+        csv_outfile.writerow(row)
 
     # append the record to the dictionary with the student Full name in proper case 
     # as the Key and the value as the GPA
@@ -67,14 +68,22 @@ import csv
 
 
 #print the entire dictionary
-
+print(student_dict)
 
 #Print the corresponding GPA for student 'Luke Brazzi'
 
 
+student_name = "Luke Brazzi".title()  
+
+if student_name in student_dict:
+    print(f"GPA of {student_name}: {student_dict[student_name]}")
+else:
+    print(f"{student_name} not found in the student records.")
+
 
 #close the outfile
-
+infile.close()
+outfile.close()
 
 
 
